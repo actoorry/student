@@ -1,0 +1,1 @@
+package vip.appap.suxin.module.crm.framework.permission.core;

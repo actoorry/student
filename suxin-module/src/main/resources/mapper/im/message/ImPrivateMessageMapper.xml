@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.appap.suxin.module.im.dal.mysql.ImPrivateMessageMapper">
+
+    <!-- 会话列表结果映射 -->
+    <resultMap id="conversationResultMap" type="vip.appap.suxin.module.im.service.ImConversationBO">
+        <result column="peer_id" property="peerId"/>
+        <result column="last_message_content" property="lastMessageContent"/>
+        <result column="last_send_time" property="lastSendTime"/>
+        <result column="unread_count" property="unreadCount"/>
+    </resultMap>
+
+    <!-- 查询会话列表：使用 UNION ALL 优化性能 -->
+    <select id="selectConversationList" resultMap="conversationResultMap">
+        SELECT
+            peer_id,
+            MAX(last_id) as last_message_id,
+            -- 获取最后一条消息的内容（通过子查询）
+            (SELECT content FROM im_private_message WHERE id = MAX(t.last_id)) as last_message_content,
+            -- 获取最后一条消息的发送时间
+            (SELECT send_time FROM im_private_message WHERE id = MAX(t.last_id)) as last_send_time,
+            SUM(unread_cnt) as unread_count
+        FROM (
+            -- 我发送的消息：按接收人分组
+            SELECT
+                receiver_id as peer_id,
+                MAX(id) as last_id,
+                0 as unread_cnt
+            FROM im_private_message
+            WHERE sender_id = #{userId}
+              AND send_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+              AND status != 4  -- 排除已撤回消息
+            GROUP BY receiver_id
+
+            UNION ALL
+
+            -- 我接收的消息：按发送人分组，统计未读
+            SELECT
+                sender_id as peer_id,
+                MAX(id) as last_id,
+                COUNT(CASE WHEN status = 0 THEN 1 END) as unread_cnt
+            FROM im_private_message
+            WHERE receiver_id = #{userId}
+              AND send_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+              AND status != 4  -- 排除已撤回消息
+            GROUP BY sender_id
+        ) t
+        GROUP BY peer_id
+        ORDER BY last_message_id DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

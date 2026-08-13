@@ -1,0 +1,97 @@
+######################################################################
+# Build Tools
+
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+.flattened-pom.xml
+
+######################################################################
+# IDE
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.mp4
+
+### NetBeans ###
+nbproject/private/
+build/*
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+######################################################################
+# Others
+*.log
+*.xml.versionsBackup
+*.swp
+
+!*/build/*.java
+!*/build/*.html
+!*/build/*.xml
+
+### JRebel ###
+rebel.xml
+
+application-my.yaml
+
+/suxin-ui-app/unpackage/
+/UI/uniapp-marriage_backup1_7-16/
+
+######################################################################
+# Database backup & temp SQL
+*.sql
+
+# Versioned SQL migrations and operational scripts
+!/docs/sql/
+!/docs/sql/**
+
+######################################################################
+# AI Agent / Claude Code
+.mcp.json
+.claude/
+/.walicode/
+/.superpowers/
+/.tmp/
+CLAUDE.local.md
+
+######################################################################
+# IDE & System
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.zip
+*.mp4
+Thumbs.db
+**/.DS_Store
+/.agents/
+/scripts/
+/.codex/
+/suxin-server/src/main/resources/application-su.yaml
+/suxin-server/src/main/resources/application-zjx.yaml
+/suxin-server/src/main/resources/application-rongjih.yaml
+/docs/01-开发手册/
+/docs/02-业务方案/
+/UI/uniapp-marriage/static/ProhibitUploading/
+/UI/uniapp-mall/static/ProhibitUploading/
+/openspec/

@@ -1,0 +1,39 @@
+package vip.appap.suxin.module.partner.controller.admin.vo;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Schema(description = "管理后台 - 会员积分记录 Response VO")
+@Data
+public class PartnerPointRecordRespVO {
+
+    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    private Long id;
+
+    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    private Long userId;
+
+    @Schema(description = "业务编码", example = "1")
+    private String bizId;
+
+    @Schema(description = "业务类型", example = "1")
+    private Integer bizType;
+
+    @Schema(description = "积分标题", example = "签到")
+    private String title;
+
+    @Schema(description = "积分描述", example = "签到奖励")
+    private String description;
+
+    @Schema(description = "积分", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
+    private Integer point;
+
+    @Schema(description = "变动后的积分", requiredMode = Schema.RequiredMode.REQUIRED, example = "100")
+    private Integer totalPoint;
+
+    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    private LocalDateTime createTime;
+
+}

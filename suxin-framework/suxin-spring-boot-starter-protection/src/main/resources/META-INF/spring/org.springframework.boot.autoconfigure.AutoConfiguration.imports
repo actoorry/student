@@ -1,0 +1,4 @@
+vip.appap.suxin.framework.idempotent.config.SuxinIdempotentConfiguration
+vip.appap.suxin.framework.lock4j.config.SuxinLock4jConfiguration
+vip.appap.suxin.framework.ratelimiter.config.SuxinRateLimiterConfiguration
+vip.appap.suxin.framework.signature.config.SuxinApiSignatureAutoConfiguration

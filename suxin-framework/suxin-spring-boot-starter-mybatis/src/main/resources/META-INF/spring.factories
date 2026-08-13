@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  vip.appap.suxin.framework.mybatis.config.IdTypeEnvironmentPostProcessor

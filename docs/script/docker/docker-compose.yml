@@ -1,0 +1,132 @@
+services:
+
+  #  MySQL8服务：后端数据库
+  mysql8:
+    image: mysql:8.0.34
+    container_name: mysql8
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql8/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: wf123456
+      MYSQL_DATABASE: ft_oa
+      TZ: Asia/Shanghai
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --lower_case_table_names=1
+      --slow_query_log=1
+      --default-authentication-plugin=mysql_native_password
+    networks:
+      - erp_network
+    restart: always
+    privileged: true
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p'Ftxrmyy@2026'"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Redis6服务
+  redis6:
+    image: redis:6.2-alpine
+    container_name: redis6
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis6/data:/data
+    command:
+      redis-server --save 60 1 --loglevel notice --requirepass 123456 --appendonly yes
+    networks:
+      - erp_network
+    restart: always
+    privileged: true
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping", "-a", "123456"]
+      interval: 3s
+      timeout: 2s
+      retries: 5
+
+  # minio 文件存储服务
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    mem_limit: 1G          # 内存限制
+    ports:
+      - "1935:9000"        # S3 API 端口
+      - "1936:9001"        # Web 控制台端口
+    environment:
+      - MINIO_ROOT_USER=admin       # 管理员账号
+      - MINIO_ROOT_PASSWORD=wf123456 # 管理员密码
+    volumes:
+      - ./minio/data:/data          # 数据持久化
+      - ./minio/config:/root/.minio # 配置持久化
+    command: server /data --console-address ":9001"  # 启动命令
+
+  # nginx  全部的前端页面都在html目录下面，还有APP下载也在
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "1927:81"
+      - "1929:82"
+      - "1931:83"
+      - "1933:84"
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf # 专属配置
+      - ./nginx/logs:/var/log/nginx                   # 专属日志
+      - ./nginx/html:/usr/share/nginx/html            # 前端程序目录
+      - ./nginx/app:/usr/share/nginx/app              # apk挂载
+    networks:
+      - erp_network
+    privileged: true
+
+  # suxin-server后端服务
+  suxin-server:
+    image: openjdk:17
+    container_name: suxin-server
+    ports:
+      - "1930:1930"
+    volumes:
+      - ./suxin:/app
+    working_dir: /app
+    command: java -Xms1024m -Xmx2048m -jar suxin-server.jar
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - erp_network
+    privileged: true
+    depends_on:
+      mysql8:
+        condition: service_healthy
+      redis6:
+        condition: service_healthy
+
+  # suxin01后端服务
+  suxin1:
+    image: openjdk:17
+    container_name: suxin1
+    ports:
+      - "1932:1930"
+    volumes:
+      - ./suxin1:/app
+    working_dir: /app
+    command: java -Xms2048m -Xmx4096m -jar suxin1.jar
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - erp_network
+    privileged: true
+    depends_on:
+      mysql8:
+        condition: service_healthy
+      redis6:
+        condition: service_healthy
+
+
+volumes: {}
+networks:
+  erp_network:
+    driver: bridge

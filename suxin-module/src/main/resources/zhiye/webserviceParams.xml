@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ws="http://webservice.neusoft.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:CallInterface>
+         <msgHeader><![CDATA[@msgHeader@]]></msgHeader>
+         <msgBody><![CDATA[@msgBody@]]></msgBody>
+      </ws:CallInterface>
+   </soapenv:Body>
+</soapenv:Envelope>

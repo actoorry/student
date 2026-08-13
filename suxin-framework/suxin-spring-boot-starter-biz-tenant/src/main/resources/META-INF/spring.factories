@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  vip.appap.suxin.framework.tenant.core.mq.kafka.TenantKafkaEnvironmentPostProcessor

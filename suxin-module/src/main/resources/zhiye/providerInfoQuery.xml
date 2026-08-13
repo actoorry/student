@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PRPM_IN306010UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0">
+    <id root="2.16.156.10011.2.5.1.1" extension="@messageId@"/>
+    <creationTime value="@messageCreateTime@"/>
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="PRPM_IN306010UV01"/>
+    <processingCode code="P"/>
+    <acceptAckCode code="AL"/>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <queryByParameter>
+            <queryId extension="@idno@"/>
+        </queryByParameter>
+    </controlActProcess>
+</PRPM_IN306010UV01>

@@ -1,0 +1,47 @@
+### 添加购物车商品
+POST {{appApi}}/sales/cart/add
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}
+Content-Type: application/json
+
+{
+  "skuId": 1,
+  "count": 1
+}
+
+### 更新购物车数量
+PUT {{appApi}}/sales/cart/update-count
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "count": 2
+}
+
+### 更新购物车选中状态
+PUT {{appApi}}/sales/cart/update-selected
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}
+Content-Type: application/json
+
+{
+  "ids": [1, 2],
+  "selected": true
+}
+
+### 删除购物车商品
+DELETE {{appApi}}/sales/cart/delete?ids=1,2
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}
+
+### 查询选中商品数量
+GET {{appApi}}/sales/cart/get-count
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}
+
+### 查询购物车列表
+GET {{appApi}}/sales/cart/list
+tenant-id: {{appTenantId}}
+Authorization: Bearer {{appToken}}

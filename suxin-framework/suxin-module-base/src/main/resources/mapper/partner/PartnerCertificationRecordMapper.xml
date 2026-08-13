@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.appap.suxin.module.partner.dal.mysql.PartnerCertificationRecordMapper">
+
+    <select id="selectPageWithPartner"
+            resultType="vip.appap.suxin.module.partner.controller.admin.vo.PartnerCertificationRecordWithPartnerRespVO">
+        SELECT cr.id,
+               cr.partner_id    AS partnerId,
+               cr.cert_type     AS certType,
+               cr.request_key   AS requestKey,
+               cr.provider_code AS providerCode,
+               cr.provider_seq_no AS providerSeqNo,
+               cr.code,
+               cr.message,
+               cr.state,
+               cr.charged,
+               cr.request_params AS requestParams,
+               cr.response_body AS responseBody,
+               cr.create_time   AS createTime,
+               p.name           AS partnerName,
+               p.mobile         AS partnerMobile
+        FROM partner_certification_record cr
+                 LEFT JOIN partner p ON cr.partner_id = p.id AND p.deleted = 0
+        WHERE cr.deleted = 0
+        <if test="reqVO.partnerId != null">
+            AND cr.partner_id = #{reqVO.partnerId}
+        </if>
+        <if test="reqVO.certType != null and reqVO.certType != ''">
+            AND cr.cert_type = #{reqVO.certType}
+        </if>
+        <if test="reqVO.providerCode != null and reqVO.providerCode != ''">
+            AND cr.provider_code = #{reqVO.providerCode}
+        </if>
+        <if test="reqVO.state != null and reqVO.state != ''">
+            AND cr.state = #{reqVO.state}
+        </if>
+        <if test="reqVO.providerSeqNo != null and reqVO.providerSeqNo != ''">
+            AND cr.provider_seq_no = #{reqVO.providerSeqNo}
+        </if>
+        <if test="reqVO.partnerName != null and reqVO.partnerName != ''">
+            AND p.name LIKE CONCAT('%', #{reqVO.partnerName}, '%')
+        </if>
+        <if test="reqVO.partnerMobile != null and reqVO.partnerMobile != ''">
+            AND p.mobile = #{reqVO.partnerMobile}
+        </if>
+        <if test="reqVO.createTime != null and reqVO.createTime.length == 2">
+            AND cr.create_time BETWEEN #{reqVO.createTime[0]} AND #{reqVO.createTime[1]}
+        </if>
+        ORDER BY cr.id DESC
+    </select>
+
+</mapper>

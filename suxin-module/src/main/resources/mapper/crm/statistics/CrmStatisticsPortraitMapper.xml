@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.appap.suxin.module.crm.dal.mysql.CrmStatisticsPortraitMapper">
+
+    <select id="selectSummaryListGroupByAreaId"
+            resultType="vip.appap.suxin.module.crm.controller.admin.vo.CrmStatisticCustomerAreaRespVO">
+        SELECT p.area_id, COUNT(*) AS customerCount, SUM(c.deal_status) AS dealCount
+        FROM crm_customer c
+        INNER JOIN partner p ON c.id = p.id
+        WHERE c.deleted = 0 AND p.area_id IS NOT NULL
+        AND c.owner_user_id IN
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        AND c.create_time BETWEEN #{times[0],javaType=java.time.LocalDateTime}
+        AND #{times[1],javaType=java.time.LocalDateTime}
+        GROUP BY p.area_id
+    </select>
+
+    <select id="selectCustomerIndustryListGroupByIndustryId"
+            resultType="vip.appap.suxin.module.crm.controller.admin.vo.CrmStatisticCustomerIndustryRespVO">
+        SELECT p.industry_id, COUNT(*) AS customerCount, SUM(c.deal_status) AS dealCount
+        FROM crm_customer c
+        INNER JOIN partner p ON c.id = p.id
+        WHERE c.deleted = 0 AND p.industry_id IS NOT NULL
+        AND c.owner_user_id IN
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        AND c.create_time BETWEEN #{times[0],javaType=java.time.LocalDateTime}
+        AND #{times[1],javaType=java.time.LocalDateTime}
+        GROUP BY p.industry_id
+    </select>
+
+    <select id="selectCustomerSourceListGroupBySource"
+            resultType="vip.appap.suxin.module.crm.controller.admin.vo.CrmStatisticCustomerSourceRespVO">
+        SELECT source, COUNT(*) AS customerCount, SUM(deal_status) AS dealCount
+        FROM crm_customer
+        WHERE deleted = 0 AND source IS NOT NULL
+        AND owner_user_id IN
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        AND create_time BETWEEN #{times[0],javaType=java.time.LocalDateTime}
+        AND #{times[1],javaType=java.time.LocalDateTime}
+        GROUP BY source
+    </select>
+
+    <select id="selectCustomerLevelListGroupByLevel"
+            resultType="vip.appap.suxin.module.crm.controller.admin.vo.CrmStatisticCustomerLevelRespVO">
+        SELECT level, COUNT(*) AS customerCount, SUM(deal_status) AS dealCount
+        FROM crm_customer
+        WHERE deleted = 0 AND level IS NOT NULL
+        AND owner_user_id IN
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        AND create_time BETWEEN #{times[0],javaType=java.time.LocalDateTime}
+        AND #{times[1],javaType=java.time.LocalDateTime}
+        GROUP BY level
+    </select>
+
+</mapper>

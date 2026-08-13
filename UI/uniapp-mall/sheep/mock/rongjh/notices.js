@@ -1,0 +1,31 @@
+export default {
+	list: [
+		{
+			id: 301,
+			name: '戎集汇平台服务升级公告',
+			summary: '平台将于近期进行系统升级，部分功能短暂维护。',
+			content: '<p>升级期间商城下单功能不受影响，战友会模块可能短暂不可用。</p>',
+			publish_date: '2026-03-05 10:00:00',
+			announcement_type_name: '系统公告',
+			is_top: true,
+			view_count: 520,
+			cover_image: '',
+			publish_user: '平台运营',
+			images: [],
+		},
+		{
+			id: 302,
+			name: '战友会入会须知更新',
+			summary: '入会申请材料要求有调整，请新申请人留意。',
+			content: '<p>请准备好服役证明及相关身份材料后提交申请。</p>',
+			publish_date: '2026-02-18 09:30:00',
+			announcement_type_name: '业务公告',
+			is_top: false,
+			view_count: 210,
+			cover_image: '',
+			publish_user: '战友会秘书处',
+			images: [],
+		},
+	],
+	total: 2,
+};

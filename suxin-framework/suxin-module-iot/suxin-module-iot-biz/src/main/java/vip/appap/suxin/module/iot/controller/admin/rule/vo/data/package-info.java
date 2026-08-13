@@ -1,0 +1,1 @@
+package vip.appap.suxin.module.iot.controller.admin.rule.vo.data;

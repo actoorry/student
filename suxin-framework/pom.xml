@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>suxin</artifactId>
+        <groupId>vip.appap.suxin</groupId>
+        <version>${revision}</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>suxin-common</module>
+        <module>suxin-module-base</module>
+        <module>suxin-module-report</module>
+        <module>suxin-module-mp</module>
+        <module>suxin-module-iot</module>
+        <module>suxin-module-bpm</module>
+        <module>suxin-module-ai</module>
+        <module>suxin-spring-boot-starter-mybatis</module>
+        <module>suxin-spring-boot-starter-redis</module>
+        <module>suxin-spring-boot-starter-web</module>
+        <module>suxin-spring-boot-starter-security</module>
+        <module>suxin-spring-boot-starter-websocket</module>
+
+        <module>suxin-spring-boot-starter-monitor</module>
+        <module>suxin-spring-boot-starter-protection</module>
+        <module>suxin-spring-boot-starter-job</module>
+        <module>suxin-spring-boot-starter-mq</module>
+
+        <module>suxin-spring-boot-starter-excel</module>
+        <module>suxin-spring-boot-starter-test</module>
+
+        <module>suxin-spring-boot-starter-biz-tenant</module>
+        <module>suxin-spring-boot-starter-biz-data-permission</module>
+        <module>suxin-spring-boot-starter-biz-ip</module>
+    </modules>
+
+    <artifactId>suxin-framework</artifactId>
+    <description>
+        该包是技术组件，每个子包，代表一个组件。每个组件包括两部分：
+            1. core 包：是该组件的核心封装
+            2. config 包：是该组件基于 Spring 的配置
+
+        技术组件，也分成三类：
+            1. 工具组件：common，工具类
+            2. 业务组件：module，和业务相关的组件的封装，例如说数据字典、操作日志等等。
+            3. 框架组件：spring-boot-starter，和我们熟悉的 MyBatis、Redis 等等的拓展
+        如果是业务组件，Maven 名字会包含 biz
+    </description>
+    <url>https://gitcode.com/andysu/suxin</url>
+
+</project>

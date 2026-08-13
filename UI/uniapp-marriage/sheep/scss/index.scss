@@ -1,0 +1,42 @@
+@import './tools';
+@import './ui';
+
+/* 字体文件 */
+@font-face {
+  font-family: OPPOSANS;
+  src: url('~@/sheep/scss/font/OPPOSANS-M-subfont.ttf');
+}
+.font-OPPOSANS {
+  font-family: OPPOSANS;
+}
+page {
+  // 固定路由页不会经过 s-layout，也需要继承同一套婚恋主题。
+  --marriage-page: #ffffff;
+  --marriage-soft: #f7f9ff;
+  --marriage-surface: #ffffff;
+  --marriage-text: #1a1c1e;
+  --marriage-muted: #5e626b;
+  --marriage-line: #e8edf6;
+  --marriage-primary: #ff6b6b;
+  --marriage-primary-pressed: #ed5c5c;
+  --marriage-primary-soft: #fff0f0;
+  --marriage-sky: #eaf5ff;
+  --marriage-mint: #e9f9f1;
+  --marriage-lavender: #f1edff;
+  --marriage-orange: #fff2df;
+  --marriage-shadow: 0 8rpx 20rpx rgba(26, 28, 30, 0.06);
+  -webkit-overflow-scrolling: touch; // 解决ios滑动不流畅
+  height: 100%;
+  width: 100%;
+  // font-family: OPPOSANS;
+  word-break: break-all; //英文文本不换行
+  white-space: normal;
+  background-color: $bg-page;
+  color: $dark-3;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+  display: none;
+}

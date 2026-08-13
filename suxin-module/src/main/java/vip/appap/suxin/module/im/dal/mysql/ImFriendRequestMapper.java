@@ -1,0 +1,73 @@
+package vip.appap.suxin.module.im.dal.mysql;
+
+import vip.appap.suxin.framework.common.pojo.PageResult;
+import vip.appap.suxin.framework.mybatis.core.mapper.BaseMapperX;
+import vip.appap.suxin.framework.mybatis.core.query.LambdaQueryWrapperX;
+import vip.appap.suxin.module.im.controller.admin.vo.ImFriendRequestManagerPageReqVO;
+import vip.appap.suxin.module.im.dal.dataobject.ImFriendRequestDO;
+import vip.appap.suxin.module.im.enums.ImFriendRequestHandleResultEnum;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+/**
+ * IM 好友申请记录 Mapper
+ *
+ * @author 芋道源码
+ */
+@Mapper
+public interface ImFriendRequestMapper extends BaseMapperX<ImFriendRequestDO> {
+
+    default ImFriendRequestDO selectByFromUserIdAndToUserId(Long fromUserId, Long toUserId) {
+        return selectOne(new LambdaQueryWrapperX<ImFriendRequestDO>()
+                .eq(ImFriendRequestDO::getFromUserId, fromUserId)
+                .eq(ImFriendRequestDO::getToUserId, toUserId));
+    }
+
+    /**
+     * 拉取「我相关」的好友申请列表；游标分页：lastRequestId 为 null 拉首页，非 null 拉 id 严格小于它的下一页
+     */
+    default List<ImFriendRequestDO> selectMyList(Long userId, Long lastRequestId, int limit) {
+        // 先放扩展过滤再放双向 OR；否则 .and() 返回 LambdaQueryWrapper 基类，丢失 ltIfPresent 等扩展方法
+        LambdaQueryWrapperX<ImFriendRequestDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.ltIfPresent(ImFriendRequestDO::getId, lastRequestId)
+                .and(w -> w.eq(ImFriendRequestDO::getFromUserId, userId)
+                        .or().eq(ImFriendRequestDO::getToUserId, userId))
+                .orderByDesc(ImFriendRequestDO::getId)
+                .last("LIMIT " + limit);
+        return selectList(wrapper);
+    }
+
+    default int updateByIdAndHandleResult(Long id, Integer handleResult, ImFriendRequestDO updateObj) {
+        return update(updateObj, new LambdaUpdateWrapper<ImFriendRequestDO>()
+                .eq(ImFriendRequestDO::getId, id).eq(ImFriendRequestDO::getHandleResult, handleResult));
+    }
+
+    /**
+     * 复用 (fromUserId, toUserId) 旧申请记录：覆盖申请理由 / 备注 / 来源，重置为未处理 + 清空旧处理痕迹
+     * <p>
+     * handleContent / handleTime 走 LambdaUpdateWrapper.set 显式置 null，updateById 默认会忽略 null 字段
+     */
+    default int updateByIdReset(Long id, String applyContent, String displayName, Integer addSource) {
+        return update(null, new LambdaUpdateWrapper<ImFriendRequestDO>()
+                .eq(ImFriendRequestDO::getId, id)
+                .set(ImFriendRequestDO::getApplyContent, applyContent)
+                .set(ImFriendRequestDO::getDisplayName, displayName)
+                .set(ImFriendRequestDO::getAddSource, addSource)
+                .set(ImFriendRequestDO::getHandleResult, ImFriendRequestHandleResultEnum.UNHANDLED.getResult())
+                .set(ImFriendRequestDO::getHandleContent, null)
+                .set(ImFriendRequestDO::getHandleTime, null));
+    }
+
+    default PageResult<ImFriendRequestDO> selectPage(ImFriendRequestManagerPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<ImFriendRequestDO>()
+                .eqIfPresent(ImFriendRequestDO::getFromUserId, reqVO.getFromUserId())
+                .eqIfPresent(ImFriendRequestDO::getToUserId, reqVO.getToUserId())
+                .eqIfPresent(ImFriendRequestDO::getHandleResult, reqVO.getHandleResult())
+                .eqIfPresent(ImFriendRequestDO::getAddSource, reqVO.getAddSource())
+                .betweenIfPresent(ImFriendRequestDO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(ImFriendRequestDO::getId));
+    }
+
+}

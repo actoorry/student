@@ -1,0 +1,78 @@
+{
+  "page": {
+    "backgroundColor": "#ffffff",
+    "backgroundImage": ""
+  },
+  "navigationBar": {
+    "enabled": false,
+    "styleType": "normal"
+  },
+  "components": [
+    {
+      "id": "StickySearchMenuHeader",
+      "property": {
+        "sticky": true,
+        "background": {
+          "image": "https://example.invalid/rongjh-header.png",
+          "color": "#e60012",
+          "height": 360
+        },
+        "spacing": {
+          "searchMenuGap": 0,
+          "menuBottomGap": 0
+        },
+        "search": {
+          "height": 28,
+          "showScan": false,
+          "borderRadius": 16,
+          "placeholder": "搜索商品",
+          "placeholderPosition": "center",
+          "backgroundColor": "#ffffff",
+          "textColor": "#969799",
+          "hotKeywords": [],
+          "style": {
+            "bgType": "color",
+            "bgColor": "transparent",
+            "paddingTop": 8,
+            "paddingRight": 12,
+            "paddingBottom": 8,
+            "paddingLeft": 12
+          }
+        },
+        "menu": {
+          "scrollable": true,
+          "row": 1,
+          "column": 5,
+          "textColor": "#ffffff",
+          "fontSize": 13,
+          "list": [
+            { "title": "热门", "titleColor": "", "url": "/pages/goods/list" },
+            { "title": "手机数码", "titleColor": "", "url": "/pages/goods/list" },
+            { "title": "食品", "titleColor": "", "url": "/pages/goods/list" },
+            { "title": "生鲜", "titleColor": "", "url": "/pages/goods/list" },
+            { "title": "个护", "titleColor": "", "url": "/pages/goods/list" },
+            { "title": "家居", "titleColor": "", "url": "/pages/goods/list" }
+          ],
+          "style": {
+            "bgType": "color",
+            "bgColor": "transparent",
+            "paddingTop": 6,
+            "paddingBottom": 8
+          }
+        },
+        "style": {
+          "bgType": "color",
+          "bgColor": "transparent"
+        }
+      }
+    },
+    {
+      "id": "Carousel",
+      "property": { "style": {} }
+    },
+    {
+      "id": "ProductWaterfall",
+      "property": { "style": {} }
+    }
+  ]
+}

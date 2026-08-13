@@ -1,0 +1,149 @@
+<template>
+  <view>
+    <!-- 基础组件：搜索框 -->
+    <s-search-block v-if="type === 'SearchBar'" :data="data" :styles="styles" :navbar="false" />
+    <!-- 基础组件：公告栏 -->
+    <s-notice-block v-if="type === 'NoticeBar'" :data="data" />
+    <!-- 基础组件：菜单导航 -->
+    <s-menu-button v-if="type === 'MenuSwiper'" :data="data" :styles="styles" />
+    <!-- 基础组件：文字分类导航区 -->
+    <s-menu-text-grid v-if="type === 'MenuTextGrid'" :data="data" :styles="styles" />
+    <!-- 基础组件：列表导航 -->
+    <s-menu-list v-if="type === 'MenuList'" :data="data" />
+    <!-- 基础组件：宫格导航 -->
+    <s-menu-grid v-if="type === 'MenuGrid'" :data="data" :styles="styles" />
+    <!-- 基础组件：弹窗广告 -->
+    <s-popup-image v-if="type === 'Popover'" :data="data" />
+    <!-- 基础组件：悬浮按钮 -->
+    <s-float-menu v-if="type === 'FloatingActionButton'" :data="data" />
+
+    <!-- 图文组件：图片展示 -->
+    <s-image-block v-if="type === 'ImageBar'" :data="data" :styles="styles" />
+    <!-- 图文组件：图片轮播 -->
+    <s-image-banner v-if="type === 'Carousel'" :data="data" :styles="styles" />
+    <!-- 历史图文组件：静态场景轮播 -->
+    <s-home-background-swipe v-if="type === 'HomeBackgroundSwipe'" :data="data" :styles="styles" />
+    <!-- 基础组件：标题栏 -->
+    <s-title-block v-if="type === 'TitleBar'" :data="data" :styles="styles" />
+    <!-- 图文组件：广告魔方 -->
+    <s-image-cube v-if="type === 'MagicCube'" :data="data" :styles="styles" />
+    <!-- 图文组件：视频播放 -->
+    <s-video-block v-if="type === 'VideoPlayer'" :data="data" :styles="styles" />
+    <!-- 基础组件：分割线 -->
+    <s-line-block v-if="type === 'Divider'" :data="data" />
+    <!-- 图文组件：热区 -->
+    <s-hotzone-block v-if="type === 'HotZone'" :data="data" :styles="styles" />
+
+    <!-- 商品组件：商品卡片 -->
+    <s-goods-card v-if="type === 'ProductCard'" :data="data" :styles="styles" />
+    <!-- 商品组件：商品栏 -->
+    <s-goods-shelves v-if="type === 'ProductList'" :data="data" :styles="styles" />
+    <!-- 商品组件：商品双列 -->
+    <s-product-row v-if="type === 'ProductRow'" :data="data" :styles="styles" />
+    <!-- 商品组件：商品瀑布流 -->
+    <s-goods-waterfall v-if="type === 'ProductWaterfall'" :data="data" :styles="styles" />
+
+    <!-- 营销组件：拼团 -->
+    <s-groupon-block v-if="type === 'PromotionCombination'" :data="data" :styles="styles" />
+    <!-- 营销组件：秒杀 -->
+    <s-seckill-block v-if="type === 'PromotionSeckill'" :data="data" :styles="styles" />
+    <!-- 营销组件：积分商城 -->
+    <s-point-block v-if="type === 'PromotionPoint'" :data="data" :styles="styles" />
+    <!-- 营销组件：小程序直播（暂时没有这个功能） -->
+    <s-live-block v-if="type === 'MpLive'" :data="data" :styles="styles" />
+    <!-- 营销组件：优惠券 -->
+    <s-coupon-block v-if="type === 'CouponCard'" :data="data" :styles="styles" />
+    <!-- 营销组件：文章 -->
+    <s-richtext-block v-if="type === 'PromotionArticle'" :data="data" :styles="styles" />
+
+    <!-- 用户组件：用户卡片 -->
+    <s-user-card v-if="type === 'UserCard'" :data="data" :styles="styles" />
+    <!-- 用户组件：用户订单 -->
+    <s-order-card v-if="type === 'UserOrder'" :data="data" :styles="styles" />
+    <!-- 用户组件：用户资产 -->
+    <s-wallet-card v-if="type === 'UserWallet'" :data="data" :styles="styles" />
+    <!-- 用户组件：用户卡券 -->
+    <s-coupon-card v-if="type === 'UserCoupon'" :data="data" :styles="styles" />
+    <!-- 用户组件：登录/退出 -->
+    <s-user-auth-button v-if="type === 'UserAuthButton'" :data="data" :styles="styles" />
+    <!-- 社交组件：当前登录用户人物头 -->
+    <s-partner-user-header v-if="type === 'PartnerUserHeader'" :data="data" :styles="styles" />
+    <!-- 社交组件：人物信息卡瀑布流 -->
+    <s-partner-profile-waterfall
+      v-if="type === 'PartnerProfileWaterfall'"
+      :data="data"
+      :styles="styles"
+    />
+    <!-- 社交组件：人物主图 -->
+    <s-partner-profile-hero v-if="type === 'PartnerProfileHero'" :data="data" :styles="styles" />
+    <!-- 社交组件：择偶宣言 -->
+    <s-partner-profile-declaration v-if="type === 'PartnerProfileDeclaration'" :data="data" />
+    <!-- 社交组件：基本资料 -->
+    <s-partner-profile-basic-info v-if="type === 'PartnerProfileBasicInfo'" :data="data" />
+    <!-- 社交组件：实名认证标志 -->
+    <s-partner-real-name-verification-badge
+      v-if="type === 'PartnerRealNameVerificationBadge'"
+      :data="data"
+      :styles="styles"
+    />
+    <!-- 社交组件：婚恋认证标志 -->
+    <s-partner-marriage-verification-badge
+      v-if="type === 'PartnerMarriageVerificationBadge'"
+      :data="data"
+      :styles="styles"
+    />
+    <!-- 社交组件：择偶条件 -->
+    <s-partner-profile-preference v-if="type === 'PartnerProfilePreference'" :data="data" />
+    <!-- 社交组件：人物相册 -->
+    <s-partner-profile-album v-if="type === 'PartnerProfileAlbum'" :data="data" />
+    <!-- 社交组件：人物最新动态 -->
+    <s-partner-profile-moment v-if="type === 'PartnerProfileMoment'" :data="data" />
+    <!-- 社交组件：隐私协议入口 -->
+    <s-partner-privacy-agreement v-if="type === 'PartnerPrivacyAgreement'" :data="data" :source-context="sourceContext" />
+    <view v-if="isUnknownDiyComponent" class="unknown-diy-component">装修组件暂不可用</view>
+  </view>
+</template>
+
+<script setup>
+  import { computed } from 'vue';
+  import {
+    isKnownDiyComponent,
+    isRetiredDiyComponent as isRetiredSharedDiyComponent,
+  } from './shared-diy-renderers';
+
+  /**
+   * 装修组件 - 组件集
+   */
+  const props = defineProps({
+    type: {
+      type: String,
+      default: '',
+    },
+    data: {
+      type: Object,
+      default() {},
+    },
+    styles: {
+      type: Object,
+      default() {},
+    },
+    sourceContext: {
+      type: Object,
+      default: null,
+    },
+  });
+  const isRetiredDiyComponent = computed(() => isRetiredSharedDiyComponent(props.type));
+  const isUnknownDiyComponent = computed(
+    () => !!props.type && !isRetiredDiyComponent.value && !isKnownDiyComponent(props.type),
+  );
+  function onSearch() {}
+</script>
+
+<style>
+  .unknown-diy-component {
+    padding: 24rpx;
+    color: #909399;
+    font-size: 24rpx;
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,40 @@
+package vip.appap.suxin.module.sales.controller.app.vo;
+
+import vip.appap.suxin.framework.common.validation.InEnum;
+import vip.appap.suxin.module.sales.enums.SalesAfterSaleWayEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import java.util.List;
+
+@Schema(description = "用户 App - 交易售后创建 Request VO")
+@Data
+public class AppSalesAfterSaleCreateReqVO {
+
+    @Schema(description = "订单项编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @NotNull(message = "订单项编号不能为空")
+    private Long orderItemId;
+
+    @Schema(description = "售后方式", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @NotNull(message = "售后方式不能为空")
+    @InEnum(value = SalesAfterSaleWayEnum.class, message = "售后方式必须是 {value}")
+    private Integer way;
+
+    @Schema(description = "退款金额", requiredMode = Schema.RequiredMode.REQUIRED, example = "100")
+    @NotNull(message = "退款金额不能为空")
+    @Min(value = 1, message = "退款金额必须大于 0")
+    private Integer refundPrice;
+
+    @Schema(description = "申请原因", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @NotNull(message = "申请原因不能为空")
+    private String applyReason;
+
+    @Schema(description = "补充描述", example = "商品质量不好")
+    private String applyDescription;
+
+    @Schema(description = "补充凭证图片", example = "https://www.appap.vip/1.png, https://www.appap.vip/2.png")
+    private List<String> applyPicUrls;
+
+}

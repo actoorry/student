@@ -1,0 +1,3 @@
+vip.appap.suxin.framework.security.config.SuxinSecurityAutoConfiguration
+vip.appap.suxin.framework.security.config.SuxinWebSecurityConfigurerAdapter
+vip.appap.suxin.framework.operatelog.config.SuxinOperateLogConfiguration

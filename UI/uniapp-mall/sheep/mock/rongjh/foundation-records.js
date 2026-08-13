@@ -1,0 +1,35 @@
+export default {
+	list: [
+		{
+			id: 201,
+			name: '困难战友医疗帮扶',
+			summary: '为患病战友筹集医疗费用，已完成首期拨付。',
+			publish_date: '2026-02-10 11:00:00',
+			amount: 50000,
+			cover_url: '',
+			applicant_name: '李**',
+			execution_status: '执行中',
+			publish_user: '戎爱心基金会',
+			applicant_phone: '138****0001',
+			attachments: [],
+		},
+		{
+			id: 202,
+			name: '烈士遗属助学资助',
+			summary: '资助烈士子女完成本学期学业费用。',
+			publish_date: '2026-01-28 16:00:00',
+			amount: 12000,
+			cover_url: '',
+			applicant_name: '王**',
+			execution_status: '已完成',
+			publish_user: '戎爱心基金会',
+			applicant_phone: '139****0002',
+			attachments: [],
+		},
+	],
+	total: 2,
+	totalAmount: {
+		contribution_amount: 1280.5,
+		deadline: '2026-03-01',
+	},
+};

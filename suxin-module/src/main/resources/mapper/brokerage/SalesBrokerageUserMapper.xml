@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.appap.suxin.module.sales.dal.mysql.SalesBrokerageUserMapper">
+
+    <select id="selectSummaryPageByUserId"
+            resultType="vip.appap.suxin.module.sales.controller.app.vo.AppSalesBrokerageUserChildSummaryRespVO">
+
+        SELECT bu.id, bu.bind_user_time AS brokerageTime,
+        (SELECT SUM(price) FROM sales_brokerage_record r
+        WHERE r.user_id = bu.id AND biz_type = #{bizType} AND r.status = #{status} AND r.deleted = FALSE) AS brokeragePrice,
+        (SELECT COUNT(1) FROM sales_brokerage_record r
+        WHERE r.user_id = bu.id AND biz_type = #{bizType} AND r.status = #{status} AND r.deleted = FALSE) AS brokerageOrderCount,
+        (SELECT COUNT(1) FROM sales_brokerage_user c
+        WHERE c.bind_user_id = bu.id AND c.deleted = FALSE) AS brokerageUserCount
+        FROM sales_brokerage_user AS bu
+        <where>
+            bu.deleted = false
+            <if test="ids != null and ids.size() > 0">
+                and bu.id in
+                <foreach collection="ids" open="(" item="id" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sortingField != null and sortingField.field == 'userCount' and sortingField.order != null">
+                <choose>
+                    <when test="sortingField.order == 'asc'">ORDER BY brokerageUserCount ASC</when>
+                    <otherwise>ORDER BY brokerageUserCount DESC</otherwise>
+                </choose>
+            </when>
+            <when test="sortingField != null and sortingField.field == 'orderCount' and sortingField.order != null">
+                <choose>
+                    <when test="sortingField.order == 'asc'">ORDER BY brokerageOrderCount ASC</when>
+                    <otherwise>ORDER BY brokerageOrderCount DESC</otherwise>
+                </choose>
+            </when>
+            <when test="sortingField != null and sortingField.field == 'price' and sortingField.order != null">
+                <choose>
+                    <when test="sortingField.order == 'asc'">ORDER BY brokeragePrice ASC</when>
+                    <otherwise>ORDER BY brokeragePrice DESC</otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                ORDER BY bu.bind_user_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

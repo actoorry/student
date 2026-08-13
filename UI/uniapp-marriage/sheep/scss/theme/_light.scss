@@ -1,0 +1,55 @@
+// 核心主题样式文件
+@mixin theme-light {
+  // 背景色
+  --ui-BG: #ffffff;
+  --ui-BG-1: #f7f9ff;
+  --ui-BG-2: #eef2fb;
+  --ui-BG-3: #e3e9f5;
+  --ui-BG-4: #d6dfef;
+
+  // 文本色
+  --ui-TC: #1a1c1e;
+  --ui-TC-1: #363a40;
+  --ui-TC-2: #5e626b;
+  --ui-TC-3: #818792;
+  --ui-TC-4: #aeb4be;
+
+  // 模糊
+  --ui-Blur: rgba(255, 255, 255, 0.98);
+  --ui-Blur-1: rgba(255, 255, 255, 0.75);
+  --ui-Blur-2: rgba(255, 255, 255, 0.25);
+  --ui-Blur-3: rgba(255, 255, 255, 0.05);
+
+  // 边框
+  --ui-Border: rgba(119, 119, 119, 0.25);
+  --ui-Outline: rgba(0, 0, 0, 0.1);
+  --ui-Line: rgba(119, 119, 119, 0.25);
+
+  // 透明与阴影
+  --ui-Shadow: 0 0.5em 1em rgba(0, 0, 0, 0.15);
+  --ui-Shadow-sm: 0 0.125em 0.25em rgba(0, 0, 0, 0.075);
+  --ui-Shadow-lg: 0 1em 3em rgba(0, 0, 0, 0.175);
+  --ui-Shadow-inset: inset 0 0.1em 0.2em rgba(0, 0, 0, 0.075);
+
+  --ui-Shadow-opacity: 0.45;
+  --ui-Shadow-opacity-sm: 0.075;
+  --ui-Shadow-opacity-lg: 0.65;
+
+  --ui-BG-opacity: 0.1;
+
+  // 婚恋客户端语义色：装修组件显式配置仍以 property.style 为准。
+  --marriage-page: #ffffff;
+  --marriage-soft: #f7f9ff;
+  --marriage-surface: #ffffff;
+  --marriage-text: #1a1c1e;
+  --marriage-muted: #5e626b;
+  --marriage-line: #e8edf6;
+  --marriage-primary: #ff6b6b;
+  --marriage-primary-pressed: #ed5c5c;
+  --marriage-primary-soft: #fff0f0;
+  --marriage-sky: #eaf5ff;
+  --marriage-mint: #e9f9f1;
+  --marriage-lavender: #f1edff;
+  --marriage-orange: #fff2df;
+  --marriage-shadow: 0 8rpx 20rpx rgba(26, 28, 30, 0.06);
+}

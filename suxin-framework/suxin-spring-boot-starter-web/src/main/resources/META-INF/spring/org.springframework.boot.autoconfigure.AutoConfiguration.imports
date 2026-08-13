@@ -1,0 +1,7 @@
+vip.appap.suxin.framework.apilog.config.SuxinApiLogAutoConfiguration
+vip.appap.suxin.framework.jackson.config.SuxinJacksonAutoConfiguration
+vip.appap.suxin.framework.swagger.config.SuxinSwaggerAutoConfiguration
+vip.appap.suxin.framework.web.config.SuxinWebAutoConfiguration
+vip.appap.suxin.framework.xss.config.SuxinXssAutoConfiguration
+vip.appap.suxin.framework.banner.config.SuxinBannerAutoConfiguration
+vip.appap.suxin.framework.encrypt.config.SuxinApiEncryptAutoConfiguration
