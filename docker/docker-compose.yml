@@ -1,0 +1,74 @@
+# suxin ERP 项目 Docker Compose 编排
+# 使用：cd docker && docker compose up -d --build
+# 说明：backend / frontend 的 build context 均为项目根目录（context: ..），
+#       并通过 dockerfile 字段指定各自 Dockerfile。
+
+services:
+  # MySQL 数据库：首次启动自动执行 ./mysql/init 下的初始化脚本（suxin.sql，含建库建表与数据）
+  mysql:
+    image: mysql:8.0
+    container_name: suxin-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # Redis 缓存：无密码，后端使用 database 3
+  redis:
+    image: redis:7
+    container_name: suxin-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # 后端服务：Java 17，端口 1930，等待 mysql / redis 健康后启动
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/backend/Dockerfile
+    container_name: suxin-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "1930:1930"
+    environment:
+      TZ: Asia/Shanghai
+
+  # 前端服务：Nginx 反代后端，端口 80
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/frontend/Dockerfile
+    container_name: suxin-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+# MySQL 数据持久化卷
+volumes:
+  mysql_data:

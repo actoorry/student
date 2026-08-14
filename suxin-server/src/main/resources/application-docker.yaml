@@ -1,0 +1,34 @@
+# Docker 部署环境配置
+# 通过启动参数 --spring.profiles.active=docker 激活，覆盖 application.yaml（基础配置）中的连接地址
+# 让容器内的后端通过容器名 mysql / redis 连接中间件
+
+server:
+  port: 1930
+
+spring:
+  # 容器内没有部署 Qdrant / Milvus 向量库，禁用对应自动配置，避免启动时连接 127.0.0.1 失败
+  # （与 application-dev.yaml 中的排除项保持一致）
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.vectorstore.qdrant.autoconfigure.QdrantVectorStoreAutoConfiguration
+      - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration
+
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:mysql://mysql:3306/suxin?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          username: root
+          password: 123456
+        slave:
+          lazy: true
+          url: jdbc:mysql://mysql:3306/suxin?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          username: root
+          password: 123456
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+      database: 3
+      # 无密码

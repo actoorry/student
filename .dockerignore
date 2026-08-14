@@ -1,0 +1,42 @@
+# ============================================================
+# Docker build context 忽略文件（backend / frontend 共用）
+# 注意：Docker 从 build context 根目录读取 .dockerignore。
+# 本项目 backend / frontend 的 build context 均为项目根目录（见 docker-compose.yml），
+# 因此若需让以下排除规则生效，请将本文件复制到项目根目录作为 .dockerignore。
+# ============================================================
+
+# ---------- 版本控制 ----------
+.git
+.gitignore
+
+# ---------- IDE ----------
+.idea
+.vscode
+*.iml
+*.ipr
+*.iws
+
+# ---------- 后端构建产物 ----------
+**/target
+*.class
+
+# ---------- 前端依赖与构建产物 ----------
+**/node_modules
+**/dist
+**/dist-prod
+**/dist-*
+
+# ---------- 日志与临时文件 ----------
+**/logs
+logs
+*.log
+tmp/
+*.tmp
+
+# ---------- 数据库脚本（初始化 SQL 由 mysql 服务挂载宿主目录，无需进入镜像）----------
+*.sql
+
+# ---------- 其他 ----------
+.DS_Store
+Thumbs.db
+.flattened-pom.xml
