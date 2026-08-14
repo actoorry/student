@@ -351,6 +351,10 @@ export enum DICT_TYPE {
   HR_OVERTIME_TYPE = 'hr_overtime_type', // 加班类型（大夜班/小夜班/法定节假日值班/周末值班/急诊加班/备班出勤/临时加班）
   HR_OVERTIME_REASON = 'hr_overtime_reason', // 加班原因（急诊手术/突发公共卫生事件/科室人手不足等）
 
+  // ========== CAMPUS 校园管理模块 ==========
+  CAMPUS_GENDER = 'campus_gender', // 性别
+  CAMPUS_SEMESTER = 'campus_semester', // 学期
+
   // ========== WMS 仓库模块 ==========
   WMS_ORDER_STATUS = 'wms_order_status', // 出入库单据状态
   WMS_STOCK_IMPACT = 'wms_stock_impact', // 库存影响方向
