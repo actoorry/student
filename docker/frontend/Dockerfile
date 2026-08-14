@@ -6,28 +6,32 @@
 # ============================================================
 
 # ---------- 构建阶段 ----------
-FROM node:20-alpine AS builder
+# 使用 node:24（匹配本机 Node v24.18.0，pnpm 11 依赖 Node 22.5+ 的内置模块，Node 20 会报 ERR_UNKNOWN_BUILTIN_MODULE）
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-# 1. 启用 corepack 并准备 pnpm 9（pnpm-lock.yaml 为 lockfileVersion 9.0）
-RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+# 1. 配置 npm 淘宝镜像，加速 pnpm 下载
+RUN npm config set registry https://registry.npmmirror.com
 
-# 2. 使用淘宝 npm 镜像，加速依赖下载
+# 2. 安装 pnpm 11.21.0（与本机版本一致，pnpm-workspace.yaml 使用 allowBuilds 语法需 pnpm 10+；lockfileVersion 9.0 兼容）
+RUN npm install -g pnpm@11.21.0
+
+# 3. 配置 pnpm 淘宝镜像，加速依赖下载
 RUN pnpm config set registry https://registry.npmmirror.com
 
-# 3. 先复制依赖描述文件，利用 Docker 层缓存
+# 4. 先复制依赖描述文件，利用 Docker 层缓存
 COPY UI/vue3-admin/package.json UI/vue3-admin/pnpm-lock.yaml UI/vue3-admin/pnpm-workspace.yaml UI/vue3-admin/
 
 WORKDIR /app/UI/vue3-admin
 
-# 4. 依据 pnpm-lock.yaml 精确安装依赖
+# 5. 依据 pnpm-lock.yaml 精确安装依赖
 RUN pnpm install --frozen-lockfile
 
-# 5. 复制前端源码
+# 6. 复制前端源码
 COPY UI/vue3-admin/ ./
 
-# 6. 生产构建（.env.prod 中 VITE_OUT_DIR=dist-prod，产物输出到 dist-prod 目录）
+# 7. 生产构建（.env.prod 中 VITE_OUT_DIR=dist-prod，产物输出到 dist-prod 目录）
 RUN pnpm build:prod
 
 # ---------- 运行阶段 ----------
